@@ -16,6 +16,6 @@ class Author(models.Model):
     image_url    = models.CharField(max_length=2000)
     introduction = models.CharField(max_length=2000)
     product      = models.ForeignKey('Product',on_delete=models.CASCADE)
-    
+
     class Meta:
         db_table = 'authors'
