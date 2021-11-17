@@ -3,7 +3,7 @@ from django.db import models
 class Product(models.Model):
     intro       = models.CharField(max_length=200)
     title       = models.CharField(max_length=100)
-    price       = models.DecimalField(max_digits=6, decimal_places=2)
+    price       = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.CharField(max_length=2000)
     image_url   = models.CharField(max_length=2000)
     deleted_at  = models.DateTimeField(null=True)
