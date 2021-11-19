@@ -51,7 +51,7 @@ class MainTotalView(View):
             } for product in Product.objects.filter(genre=like_genre)[:10]]
         
         reviews_info = [{
-            "id"            : review.id,
+            "id"            : review.product.id,
             "product_images" : review.product.image_url,
             "text"          : review.text,
             "name"          : review.user.name
