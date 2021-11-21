@@ -20,3 +20,10 @@ class PaymentType(models.Model):
 
     class Meta:
         db_table = 'payment_types'        
+
+class ShoppingHistory(models.Model):
+    user           = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    product        = models.ForeignKey('products.Product', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'shopping_historys'

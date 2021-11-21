@@ -6,6 +6,7 @@ class Product(models.Model):
     price       = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.CharField(max_length=2000)
     image_url   = models.CharField(max_length=2000)
+    genre       = models.CharField(max_length=100, default='')
     deleted_at  = models.DateTimeField(null=True)
 
     class Meta:
