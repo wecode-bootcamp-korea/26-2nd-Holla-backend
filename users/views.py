@@ -15,7 +15,6 @@ class KakaoSignInView(View):
                 headers={"Authorization": f"Bearer {access_token}"})
             
             kakao_data = kakao_response.json()
-            
             kakao_id   = kakao_data["id"]
             email      = kakao_data["kakao_account"]["email"]
             nickname   = kakao_data["properties"]["nickname"]
