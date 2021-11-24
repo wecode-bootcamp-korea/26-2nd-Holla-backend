@@ -107,4 +107,4 @@ class KakaoSignInTest(TestCase):
         response = client.get("/users/kakao/signin", **headers)
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.json(), {"message" : "KEY_ERROR"})        
+        self.assertEqual(response.json(), {"message" : "TOKEN_OR_KEY_ERROR"})        
