@@ -1,9 +1,16 @@
+import jwt
+
 from django.http import response
 from django.test import TestCase, Client
+from django.conf import settings
 
-from .models import Author, Product
+from .models       import Author, Product
+from orders.models import ShoppingHistory
+from users.models  import User
+from reviews.models import Review
 
 class ProductTest(TestCase):
+    maxDiff = None
     def setUp(self):
         self.client = Client()
         Product.objects.create(
@@ -55,3 +62,96 @@ class ProductTest(TestCase):
 
         self.assertEqual(response.json(), {"message" : "PRODUCT_DOES_NOT_EXIST"})
         self.assertEqual(response.status_code, 404)
+
+class MainTotalTest(TestCase):
+    maxDiff = None
+    
+    def setUp(self):
+        User.objects.create(
+            id = 1,
+            email = "wecode@gmail.com",
+            nickname = "테스트",
+            name = "김테스",
+            kakao_id = 234234
+        )
+
+        Product.objects.create(
+            id = 1,
+            intro = "인트로",
+            title = "타이틀",
+            price = 50000,
+            description = "설명",
+            image_url = "h",
+            genre = "멜로"
+            )
+
+        Author.objects.create(
+            id = 1,
+            image_url = "h",
+            name = "작가",
+            introduction = "인트로덕션",
+            product_id = 1
+        )
+
+        Review.objects.create(
+            id = 1,
+            user_id = 1,
+            product_id = 1,
+            text = "텍스트",
+            rating = 5
+        )
+
+        ShoppingHistory.objects.create(
+            id = 1,
+            user_id = 1,
+            product_id = 1
+        )
+
+        self.token = jwt.encode({
+            'id' : User.objects.get(id=1).id
+            }, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+
+    def tearDown(self):
+        User.objects.all().delete()
+        Product.objects.all().delete()
+        Author.objects.all().delete()
+        Review.objects.all().delete()
+        ShoppingHistory.objects.all().delete()
+
+    def test_get_main_total_success(self):
+        client = Client()
+        header = {"HTTP_Authorization" : self.token}
+        response = client.get("/", **header)
+        results = response.json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(results, {
+            'message': 'SUCCESS', 
+            'results': {
+                'name': '김테스', 
+                'recommend_books': [
+                    {
+                        'id': 1, 
+                        'product_images': 'h', 
+                        'intro': '인트로'
+                    }
+                ], 
+                'realtime_reviews': [
+                    {
+                        'id': 1, 
+                        'product_images': 'h', 
+                        'text': '텍스트', 
+                        'name': '김테스'
+                    }
+                ], 
+                'book_of_the_month': [
+                    {
+                        'id': 1, 
+                        'product_images': 'h', 
+                        'title': '타이틀', 
+                        'author': '작가', 
+                        'author_images': 'h'
+                    }
+                ]
+            }
+        })

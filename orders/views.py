@@ -4,11 +4,11 @@ from django.views     import View
 from django.http      import JsonResponse
 from django.db.models import Sum
 
-from orders.models   import ShoppingCart
+from orders.models   import PaymentType, ShoppingCart
 from products.models import Author
 from core.utils      import login_decorator
 
-class CartGetView(View):
+class CartView(View):
     @login_decorator
     def get(self, request):
         try:
@@ -36,8 +36,7 @@ class CartGetView(View):
 
         except ShoppingCart.DoesNotExist:
             return JsonResponse({"message" : "SHOPPINGCART_DOES_NOT_EXIST"}, status = 400)
-        
-class CartPostView(View):
+            
     @login_decorator
     def post(self, request):
         try:
@@ -45,17 +44,19 @@ class CartPostView(View):
             product_id = data['product_id']
 
             ShoppingCart.objects.create(
-                product_id = product_id,
-                user_id    = request.user.id,
+                product_id     = product_id,
+                user_id        = request.user.id,
+                order_status_id  = 1,
+                payment_type_id = 1
             )
             return JsonResponse({'message' : 'SUCCESS'}, status=201)
 
         except KeyError:
             return JsonResponse({'message' : 'KEY_ERROR'}, status=400)
 
-class CartDeleteView(View):
-    login_decorator
+    @login_decorator
     def delete(self, request, product_id):
         ShoppingCart.objects.filter(user_id = request.user.id, product_id = product_id).delete()
+
 
         return JsonResponse({"message" : "SUCCESS"}, status=204)
