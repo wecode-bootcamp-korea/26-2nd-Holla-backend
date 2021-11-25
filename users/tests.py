@@ -1,6 +1,5 @@
-import unittest, jwt
+import jwt
 
-from django.http    import response
 from django.test    import TestCase, Client
 from unittest.mock  import patch, MagicMock
 

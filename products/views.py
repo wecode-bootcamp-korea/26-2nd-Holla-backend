@@ -52,7 +52,7 @@ class MainTotalView(View):
         
         reviews_info = [{
             "id"            : review.id,
-            "product_image" : review.product.image_url,
+            "product_images" : review.product.image_url,
             "text"          : review.text,
             "name"          : review.user.name
         } for review in Review.objects.order_by("created_at")[:6]]
@@ -72,4 +72,5 @@ class MainTotalView(View):
             "book_of_the_month" : month_info
         }
 
-        return JsonResponse({"message" : "SUCCESS", "results" : results}, status = 200)
+        return JsonResponse({
+            "message" : "SUCCESS", "results" : results}, status = 200)
