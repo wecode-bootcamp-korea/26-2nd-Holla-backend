@@ -73,4 +73,5 @@ class MainTotalView(View):
             "book_of_the_month" : month_info
         }
 
-        return JsonResponse({"message" : "SUCCESS", "results" : results}, status = 200)
+        return JsonResponse({
+            "message" : "SUCCESS", "results" : results}, status = 200)

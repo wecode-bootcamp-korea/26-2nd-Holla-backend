@@ -1,12 +1,11 @@
 import jwt
 
-from django.http import response
-from django.test import TestCase, Client
-from django.conf import settings
+from django.test    import TestCase, Client
+from django.conf    import settings
 
-from .models       import Author, Product
-from orders.models import ShoppingHistory
-from users.models  import User
+from .models        import Author, Product
+from orders.models  import ShoppingHistory
+from users.models   import User
 from reviews.models import Review
 
 class ProductTest(TestCase):
@@ -68,42 +67,42 @@ class MainTotalTest(TestCase):
     
     def setUp(self):
         User.objects.create(
-            id = 1,
-            email = "wecode@gmail.com",
+            id       = 1,
+            email    = "wecode@gmail.com",
             nickname = "테스트",
-            name = "김테스",
+            name     = "김테스",
             kakao_id = 234234
         )
 
         Product.objects.create(
-            id = 1,
-            intro = "인트로",
-            title = "타이틀",
-            price = 50000,
+            id          = 1,
+            intro       = "인트로",
+            title       = "타이틀",
+            price       = 50000,
             description = "설명",
-            image_url = "h",
-            genre = "멜로"
+            image_url   = "h",
+            genre       = "멜로"
             )
 
         Author.objects.create(
-            id = 1,
-            image_url = "h",
-            name = "작가",
+            id           = 1,
+            image_url    = "h",
+            name         = "작가",
             introduction = "인트로덕션",
-            product_id = 1
+            product_id   = 1
         )
 
         Review.objects.create(
-            id = 1,
-            user_id = 1,
+            id         = 1,
+            user_id    = 1,
             product_id = 1,
-            text = "텍스트",
-            rating = 5
+            text       = "텍스트",
+            rating     = 5
         )
 
         ShoppingHistory.objects.create(
-            id = 1,
-            user_id = 1,
+            id         = 1,
+            user_id    = 1,
             product_id = 1
         )
 
