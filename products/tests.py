@@ -118,10 +118,10 @@ class MainTotalTest(TestCase):
         ShoppingHistory.objects.all().delete()
 
     def test_get_main_total_success(self):
-        client = Client()
-        header = {"HTTP_Authorization" : self.token}
+        client   = Client()
+        header   = {"HTTP_Authorization" : self.token}
         response = client.get("/", **header)
-        results = response.json()
+        results  = response.json()
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(results, {
