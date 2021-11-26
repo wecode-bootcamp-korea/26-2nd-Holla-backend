@@ -51,10 +51,10 @@ class MainTotalView(View):
             } for product in Product.objects.filter(genre=like_genre)[:10]]
         
         reviews_info = [{
-            "id"            : review.id,
+            "id"             : review.product.id,
             "product_images" : review.product.image_url,
-            "text"          : review.text,
-            "name"          : review.user.name
+            "text"           : review.text,
+            "name"           : review.user.name
         } for review in Review.objects.order_by("created_at")[:6]]
         
         month_info = [{

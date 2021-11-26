@@ -19,7 +19,7 @@ class ReviewView(View):
                 "total_reviews" : total_reviews,
                 "avg_rating"    : round(avg_rating, 1) if avg_rating != None else 0,
                 "reviews"       : [{
-                    "id"   : review.id,
+                    "id"   : review.product.id,
                     "name" : review.user.name,
                     "date" : DateFormat(review.created_at).format('Y.m.d h:m'),
                     "text" : review.text,
@@ -37,7 +37,7 @@ class ReviewView(View):
             data    = json.loads(request.body)
             rating  = data["rating"]
             text    = data["text"]
-            user    = request.user
+            user    = request.user.id
             product = product_id
 
             Review.objects.create(
